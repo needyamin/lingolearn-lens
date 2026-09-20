@@ -1,0 +1,25 @@
+# OS / cloud-sync junk (folder lives in OneDrive)
+Thumbs.db
+ehthumbs.db
+desktop.ini
+.DS_Store
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node tooling (web-ext, addons-linter, http-server)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# web-ext build output
+.web-ext-build/
+.artifacts/
+
+# Temp/lock files
+*.tmp
+~$*

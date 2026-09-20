@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="head">
+    <img src="../icons/icon-48.png" alt="" width="30" height="30">
+    <div>
+      <strong>LingoLearn Lens</strong>
+      <span>Instant Bangla meanings</span>
+    </div>
+  </header>
+
+  <label class="row">
+    <span>Automatic translation</span>
+    <span class="switch">
+      <input type="checkbox" id="toggleTranslate" aria-label="Automatic translation">
+      <i></i>
+    </span>
+  </label>
+
+  <label class="row">
+    <span>Automatic pronunciation</span>
+    <span class="switch">
+      <input type="checkbox" id="toggleSpeak" aria-label="Automatic pronunciation">
+      <i></i>
+    </span>
+  </label>
+
+  <label class="row">
+    <span>Automatic speech</span>
+    <span class="switch">
+      <input type="checkbox" id="toggleVoice" aria-label="Automatic speech">
+      <i></i>
+    </span>
+  </label>
+
+  <p id="statusText" class="status"></p>
+
+  <button type="button" id="openSettings" class="settings">All settings</button>
+
+  <p class="tip">Select text on any page to see its meaning instantly.</p>
+
+  <p class="brand">A product of <a href="https://inside.ansnew.com/" target="_blank" rel="noopener noreferrer">ANSNEW TECH.</a></p>
+
+  <script src="../common/settings.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

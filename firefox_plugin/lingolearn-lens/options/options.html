@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LingoLearn Lens — Settings</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="masthead">
+      <img src="../icons/icon-96.png" alt="LingoLearn Lens logo" width="52" height="52">
+      <div>
+        <h1>LingoLearn Lens</h1>
+        <p>Select any text to see its Bangla meaning and hear it instantly.</p>
+      </div>
+    </header>
+
+    <section class="card">
+      <h2>Translation</h2>
+      <div class="row">
+        <div class="row-text">
+          <label for="autoTranslate">Automatic Bangla translation</label>
+          <p class="hint">Show the meaning popup whenever you select text on a page.</p>
+        </div>
+        <span class="switch">
+          <input type="checkbox" id="autoTranslate" aria-label="Automatic Bangla translation">
+          <i></i>
+        </span>
+      </div>
+      <div class="row">
+        <div class="row-text">
+          <label for="targetLanguage">Translate to</label>
+          <p class="hint">Language the meaning is shown in.</p>
+        </div>
+        <select id="targetLanguage" aria-label="Translate to"></select>
+      </div>
+      <div class="row">
+        <div class="row-text">
+          <label for="showDictionary">Dictionary suggestions</label>
+          <p class="hint">For single words, show parts of speech with alternative meanings.</p>
+        </div>
+        <span class="switch">
+          <input type="checkbox" id="showDictionary" aria-label="Dictionary suggestions">
+          <i></i>
+        </span>
+      </div>
+      <div class="row">
+        <div class="row-text">
+          <label for="maxSelectionLength">Longest selection to translate</label>
+          <p class="hint">Longer selections are trimmed before being translated.</p>
+        </div>
+        <div class="rate-row">
+          <input type="number" id="maxSelectionLength" min="50" max="1500" step="50" aria-label="Longest selection to translate">
+          <span class="unit">characters</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Pronunciation</h2>
+      <div class="row">
+        <div class="row-text">
+          <label for="speechEnabled">Automatic speech</label>
+          <p class="hint">Master voice switch — turn off to silence all pronunciation. The translation popup keeps working.</p>
+        </div>
+        <span class="switch">
+          <input type="checkbox" id="speechEnabled" aria-label="Automatic speech">
+          <i></i>
+        </span>
+      </div>
+      <div class="row">
+        <div class="row-text">
+          <label for="autoSpeak">Automatic pronunciation</label>
+          <p class="hint">Start reading the text aloud as soon as it is selected.</p>
+        </div>
+        <span class="switch">
+          <input type="checkbox" id="autoSpeak" aria-label="Automatic pronunciation">
+          <i></i>
+        </span>
+      </div>
+      <div class="row">
+        <div class="row-text">
+          <span class="row-label">Pronounce</span>
+          <p class="hint">Choose what is read aloud.</p>
+        </div>
+        <div class="segmented" role="radiogroup" aria-label="Pronounce">
+          <label>
+            <input type="radio" name="speakTarget" id="speakSource" value="source">
+            <span>Selected text</span>
+          </label>
+          <label>
+            <input type="radio" name="speakTarget" id="speakTranslation" value="translation">
+            <span>Bangla meaning</span>
+          </label>
+        </div>
+      </div>
+      <div class="row" id="voiceRow" hidden>
+        <div class="row-text">
+          <label for="voiceSelect">Voice</label>
+          <p class="hint">Voices come from your operating system. “Automatic” matches the detected language.</p>
+        </div>
+        <select id="voiceSelect" aria-label="Voice"></select>
+      </div>
+      <div class="row">
+        <div class="row-text">
+          <label for="speechRate">Speech rate</label>
+          <p class="hint">Playback speed for pronunciation.</p>
+        </div>
+        <div class="rate-row">
+          <input type="range" id="speechRate" min="0.5" max="2" step="0.05" aria-label="Speech rate">
+          <output id="rateValue" for="speechRate">1.00×</output>
+          <button type="button" id="testSpeech" class="btn small">Test</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Appearance</h2>
+      <div class="row">
+        <div class="row-text">
+          <label for="popupTheme">Popup theme</label>
+          <p class="hint">“Match system” follows your Firefox theme.</p>
+        </div>
+        <select id="popupTheme" aria-label="Popup theme">
+          <option value="auto">Match system</option>
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Excluded sites</h2>
+      <div class="stack">
+        <p class="hint">The popup stays off on these sites. One domain per line — subdomains are included automatically.</p>
+        <textarea id="excludedSites" rows="4" placeholder="example.com&#10;mail.google.com" spellcheck="false" aria-label="Excluded sites"></textarea>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <button type="button" id="reset" class="btn">Reset to defaults</button>
+      <p class="privacy">Only the text you select is sent to Google Translate's public endpoint to produce the meaning. Nothing else leaves your browser, and all settings are stored locally in Firefox.</p>
+      <p class="brand">A product of <a href="https://inside.ansnew.com/" target="_blank" rel="noopener noreferrer">ANSNEW TECH.</a></p>
+    </footer>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite">Settings saved</div>
+
+  <script src="../common/settings.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

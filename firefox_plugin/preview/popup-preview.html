@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>LingoLearn Lens — popup preview (development)</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #0f1117; color: #e8eaf2; margin: 0; padding: 32px; }
+    h1 { font-size: 20px; margin: 0 0 6px; }
+    p.lead { color: #9aa2bb; margin: 0 0 24px; }
+    .row { display: flex; gap: 10px; flex-wrap: wrap; }
+    button {
+      padding: 10px 16px; border-radius: 9px; border: 1px solid #2c3040;
+      background: #191d2a; color: #e8eaf2; cursor: pointer; font-size: 14px;
+    }
+    button:hover { border-color: #6a5cf5; }
+    .spacer { height: 180px; }
+  </style>
+</head>
+<body>
+  <h1>LingoLearn Lens — popup preview</h1>
+  <p class="lead">
+    Development page for checking the selection popup without loading the extension.
+    A sample result is shown on load; the buttons render each state next to the popup.
+  </p>
+  <div class="row">
+    <button data-demo="loading">Loading</button>
+    <button data-demo="word">Word result</button>
+    <button data-demo="sentence">Sentence result</button>
+    <button data-demo="bangla">Already Bangla</button>
+    <button data-demo="error">Error</button>
+    <button data-demo="dark">Toggle theme</button>
+  </div>
+  <div class="spacer"></div>
+
+  <script src="../lingolearn-lens/content/styles.js"></script>
+  <script src="../lingolearn-lens/content/popup-ui.js"></script>
+  <script>
+    const ui = new LingoLearnPopup();
+
+    const SAMPLES = {
+      word: {
+        translation: "ভাগ্যক্রমে, সৌভাগ্যবশত",
+        dictionary: [
+          { pos: "adverb", terms: ["সৌভাগ্যবশত", "ভাগ্যক্রমে", "সৌভাগ্যে"] },
+          { pos: "noun", terms: ["সৌভাগ্য"] },
+        ],
+        romanization: "",
+        detectedLanguage: "en",
+      },
+      sentence: {
+        translation: "জীবন একটি পুস্তকের মতো: প্রতিটি পাতা একটি নতুন গল্প বলে।",
+        dictionary: [],
+        romanization: "",
+        detectedLanguage: "en",
+      },
+      bangla: {
+        translation: "বাংলা ভাষা আমাদের মাতৃভাষা।",
+        dictionary: [],
+        romanization: "",
+        detectedLanguage: "bn",
+      },
+    };
+
+    function anchor() {
+      return document.querySelector('[data-demo="word"]').getBoundingClientRect();
+    }
+
+    document.querySelectorAll("[data-demo]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const rect = button.getBoundingClientRect();
+        const demo = button.dataset.demo;
+        if (demo === "dark") {
+          ui.setTheme(ui.host.getAttribute("data-ll-theme") === "dark" ? "light" : "dark");
+          return;
+        }
+        // The real controller always shows the loading state first, then
+        // swaps in the result/error; mirror that here.
+        ui.showLoading(rect);
+        if (demo === "loading") return;
+        if (demo === "error") {
+          ui.showError("Could not reach the translation service (HTTP 429). Try again in a moment.");
+          return;
+        }
+        ui.showResult(SAMPLES[demo], {
+          showDictionary: true,
+          alreadyTarget: demo === "bangla",
+          targetName: "বাংলা",
+          note: demo === "bangla" ? "Selected text is already in Bangla." : "",
+        });
+      });
+    });
+
+    // Show a sample result on load so a plain screenshot captures the popup.
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        ui.showLoading(anchor());
+        ui.showResult(SAMPLES.word, {
+          showDictionary: true,
+          alreadyTarget: false,
+          targetName: "বাংলা",
+          note: "",
+        });
+      }, 200);
+    });
+  </script>
+</body>
+</html>

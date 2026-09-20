@@ -1,0 +1,57 @@
+{
+  "manifest_version": 2,
+  "name": "LingoLearn Lens — Instant Bangla Meanings",
+  "version": "1.0.2",
+  "description": "Select any text to instantly see its Bangla meaning and hear it read aloud automatically.",
+  "author": "ANSNEW TECH.",
+  "homepage_url": "https://inside.ansnew.com/",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "lingolearn-lens@needy.dev",
+      "strict_min_version": "109.0",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
+    }
+  },
+  "icons": {
+    "48": "icons/icon-48.png",
+    "96": "icons/icon-96.png",
+    "128": "icons/icon-128.png"
+  },
+  "permissions": [
+    "storage",
+    "https://translate.googleapis.com/*",
+    "https://clients5.google.com/*"
+  ],
+  "background": {
+    "scripts": ["common/settings.js", "background/background.js"],
+    "persistent": false
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": [
+        "common/settings.js",
+        "content/styles.js",
+        "content/popup-ui.js",
+        "content/content.js"
+      ],
+      "run_at": "document_idle",
+      "all_frames": true
+    }
+  ],
+  "browser_action": {
+    "default_title": "LingoLearn Lens",
+    "default_popup": "action/popup.html",
+    "default_icon": {
+      "48": "icons/icon-48.png",
+      "96": "icons/icon-96.png"
+    },
+    "default_area": "navbar"
+  },
+  "options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": false
+  }
+}
