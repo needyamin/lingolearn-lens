@@ -42,7 +42,7 @@ Bump `version` in both manifests for every store submission.
 
 ## Privacy
 
-Only the text you select is sent to Google Translate's public endpoint. No analytics, no tracking; settings stay in the browser's own storage.
+Only the text you select is sent to Google Translate's public endpoint. No analytics, no tracking; settings stay in the browser's own storage. Full policy: [privacy_policy.html](privacy_policy.html).
 
 ## License
 
