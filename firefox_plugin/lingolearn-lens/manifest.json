@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "LingoLearn Lens — Instant Bangla Meanings",
+  "name": "LingoLearn Lens — Instant Meanings & Pronunciation",
   "version": "1.0.2",
-  "description": "Select any text to instantly see its Bangla meaning and hear it read aloud automatically.",
+  "description": "Select any text to instantly see its translation and hear it read aloud — Bangla by default, switchable to 100+ languages in settings.",
   "author": "ANSNEW TECH.",
   "homepage_url": "https://inside.ansnew.com/",
   "browser_specific_settings": {

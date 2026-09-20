@@ -6,6 +6,7 @@ const translateToggle = document.getElementById("toggleTranslate");
 const speakToggle = document.getElementById("toggleSpeak");
 const voiceToggle = document.getElementById("toggleVoice");
 const statusText = document.getElementById("statusText");
+const targetLine = document.getElementById("targetLine");
 const openSettingsBtn = document.getElementById("openSettings");
 
 init();
@@ -15,6 +16,8 @@ async function init() {
   translateToggle.checked = settings.autoTranslate;
   speakToggle.checked = settings.autoSpeak;
   voiceToggle.checked = settings.speechEnabled;
+  const targetName = LL_TARGET_LANGUAGES[settings.targetLanguage] || "Bangla";
+  targetLine.textContent = `Instant ${targetName} meanings`;
   updateStatus(settings);
 
   translateToggle.addEventListener("change", save);
@@ -38,8 +41,9 @@ async function save() {
 }
 
 function updateStatus(settings) {
+  const targetName = LL_TARGET_LANGUAGES[settings.targetLanguage] || "target";
   let text = settings.autoTranslate
-    ? "Active — select text on any page to see its Bangla meaning."
+    ? `Active — select text on any page to see its ${targetName} meaning.`
     : "Paused — automatic translation is off.";
   if (!settings.speechEnabled) text += " Voice is off.";
   statusText.textContent = text;

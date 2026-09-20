@@ -39,7 +39,7 @@ const LL_ICONS = {
 const LL_COMPANY = { name: "ANSNEW TECH.", url: "https://inside.ansnew.com/" };
 
 const LL_POPUP_MARKUP = `
-  <div class="ll-card" aria-label="Bangla meaning">
+  <div class="ll-card" aria-label="Translation">
     <header class="ll-head">
       <span class="ll-lang">Translating…</span>
       <span class="ll-tools">
