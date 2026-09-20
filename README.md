@@ -18,8 +18,8 @@ Select any text on a page: LingoLearn Lens shows its translation in a popup next
 ```
 firefox_plugin/lingolearn-lens/    Firefox add-on (Manifest V2)
 chrome_plugin/lingolearn-lens/     Chrome extension (Manifest V3)
-firefox_plugin/lingolearn-lens-1.0.2.zip   ready-to-upload AMO package
-chrome_plugin/lingolearn-lens-1.0.2.zip    ready-to-upload Chrome Web Store package
+firefox_plugin/lingolearn-lens-1.0.3.zip   ready-to-upload AMO package
+chrome_plugin/lingolearn-lens-1.0.3.zip    ready-to-upload Chrome Web Store package
 */preview/popup-preview.html       popup states without loading the extension
 */test-page.html                   sample content for testing
 ```
@@ -35,7 +35,7 @@ Shared code (content scripts, popup UI, options, settings) is identical in both 
 
 ```bash
 cd firefox_plugin   # or chrome_plugin
-tar -a -c -f lingolearn-lens-1.0.2.zip -C lingolearn-lens manifest.json icons common content background options action LICENSE README.md
+tar -a -c -f lingolearn-lens-1.0.3.zip -C lingolearn-lens manifest.json icons common content background options action LICENSE README.md
 ```
 
 Bump `version` in both manifests for every store submission.

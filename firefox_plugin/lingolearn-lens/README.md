@@ -23,7 +23,7 @@ Temporary installs last until Firefox restarts; settings persist.
 Run from the `firefox_plugin` folder:
 
 ```bash
-tar -a -c -f lingolearn-lens-1.0.2.zip -C lingolearn-lens manifest.json icons common content background options action LICENSE README.md
+tar -a -c -f lingolearn-lens-1.0.3.zip -C lingolearn-lens manifest.json icons common content background options action LICENSE README.md
 ```
 
 ## Privacy

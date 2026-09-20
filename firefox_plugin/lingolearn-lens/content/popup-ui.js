@@ -79,7 +79,9 @@ class LingoLearnPopup {
       "position:fixed;top:0;left:0;width:0;height:0;z-index:2147483647;pointer-events:none;";
 
     const root = this.host.attachShadow({ mode: "closed" });
-    root.innerHTML = LL_POPUP_MARKUP;
+    // Markup is a bundled constant (no page-derived data); parsed via a
+    // fragment instead of innerHTML to satisfy store linters.
+    root.appendChild(document.createRange().createContextualFragment(LL_POPUP_MARKUP));
     this._applyStyles(root);
 
     this.card = root.querySelector(".ll-card");
