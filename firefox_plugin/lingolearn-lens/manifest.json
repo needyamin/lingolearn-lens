@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "LingoLearn Lens — Instant Meanings & Pronunciation",
+  "name": "LingoLearn Lens — Meanings & Pronunciation",
   "version": "1.0.2",
-  "description": "Select any text to instantly see its translation and hear it read aloud — Bangla by default, switchable to 100+ languages in settings.",
+  "description": "Select any text to see its translation and hear it aloud — Bangla by default, 100+ languages in settings.",
   "author": "ANSNEW TECH.",
   "homepage_url": "https://inside.ansnew.com/",
   "browser_specific_settings": {
@@ -10,7 +10,9 @@
       "id": "lingolearn-lens@needy.dev",
       "strict_min_version": "109.0",
       "data_collection_permissions": {
-        "required": ["none"]
+        "required": [
+          "none"
+        ]
       }
     }
   },
@@ -25,12 +27,17 @@
     "https://clients5.google.com/*"
   ],
   "background": {
-    "scripts": ["common/settings.js", "background/background.js"],
+    "scripts": [
+      "common/settings.js",
+      "background/background.js"
+    ],
     "persistent": false
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
+      "matches": [
+        "<all_urls>"
+      ],
       "js": [
         "common/settings.js",
         "content/styles.js",
