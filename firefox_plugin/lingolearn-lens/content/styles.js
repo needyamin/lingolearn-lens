@@ -1,7 +1,7 @@
 "use strict";
 
 /*
- * LingoLearn Lens — popup stylesheet.
+ * LingoLearn BN — popup stylesheet.
  * A plain CSS string (not a file) so the popup controller can inject it into
  * the shadow root via constructable stylesheets, which keeps it isolated from
  * the host page and immune to the page's CSP.
@@ -149,6 +149,8 @@ const LL_POPUP_STYLES = `
 
   .ll-roman { margin-top: 6px; font-size: 12.5px; font-style: italic; color: var(--ll-muted); }
 
+  .ll-ipa { margin-top: 5px; font-size: 12px; color: var(--ll-muted); }
+
   .ll-dict {
     margin-top: 10px;
     display: flex;
@@ -187,10 +189,33 @@ const LL_POPUP_STYLES = `
 
   .ll-foot {
     flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
     padding: 4px 12px 6px;
     border-top: 1px solid var(--ll-border);
-    text-align: right;
   }
+
+  .ll-gt {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    padding: 2px 3px;
+    color: var(--ll-muted);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .ll-gt svg { width: 13px; height: 13px; fill: currentColor; }
+  .ll-gt:hover { color: var(--ll-accent); }
+  .ll-gt:focus-visible { outline: 2px solid var(--ll-accent); outline-offset: 2px; border-radius: 3px; }
 
   .ll-foot a {
     color: var(--ll-muted);

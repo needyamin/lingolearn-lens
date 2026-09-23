@@ -1,8 +1,8 @@
-# LingoLearn Lens — Instant Meanings & Pronunciation
+# LingoLearn BN - Instant Meaning & Pronunciation
 
 A browser extension by [ANSNEW TECH.](https://inside.ansnew.com/). Firefox add-on and Chrome extension with identical features and UI.
 
-Select any text on a page: LingoLearn Lens shows its translation in a popup next to the selection and reads it aloud automatically. The source language is auto-detected; the target defaults to Bangla and can be switched to any of 100+ languages in settings.
+Select any text on a page: LingoLearn BN shows its translation in a popup next to the selection and reads it aloud automatically. The source language is auto-detected; the target is Bangla, looked up fully offline in dictionaries bundled with the extension.
 
 ## Features
 
@@ -18,8 +18,8 @@ Select any text on a page: LingoLearn Lens shows its translation in a popup next
 ```
 firefox_plugin/lingolearn-lens/    Firefox add-on (Manifest V2)
 chrome_plugin/lingolearn-lens/     Chrome extension (Manifest V3)
-firefox_plugin/lingolearn-lens-1.0.3.zip   ready-to-upload AMO package
-chrome_plugin/lingolearn-lens-1.0.3.zip    ready-to-upload Chrome Web Store package
+firefox_plugin/lingolearn-lens-1.1.4.zip   ready-to-upload AMO package
+chrome_plugin/lingolearn-lens-1.1.4.zip    ready-to-upload Chrome Web Store package
 */preview/popup-preview.html       popup states without loading the extension
 */test-page.html                   sample content for testing
 ```
@@ -35,7 +35,15 @@ Shared code (content scripts, popup UI, options, settings) is identical in both 
 
 ```bash
 cd firefox_plugin   # or chrome_plugin
-tar -a -c -f lingolearn-lens-1.0.3.zip -C lingolearn-lens manifest.json icons common content background options action LICENSE README.md
+python - <<'PY'  # (excludes tools/)
+import os, zipfile
+with zipfile.ZipFile("lingolearn-lens-1.1.4.zip", "w", zipfile.ZIP_DEFLATED) as z:
+    for root, dirs, files in os.walk("lingolearn-lens"):
+        dirs[:] = [d for d in dirs if d != "tools"]
+        for name in sorted(files):
+            p = os.path.join(root, name)
+            z.write(p, os.path.relpath(p, "lingolearn-lens"))
+PY
 ```
 
 Bump `version` in both manifests for every store submission.

@@ -1,7 +1,7 @@
 "use strict";
 
 /*
- * LingoLearn Lens — selection controller.
+ * LingoLearn BN — selection controller.
  *
  * Watches text selection on the page (selectionchange + mouseup, debounced),
  * shows the LingoLearnPopup anchored to the selection, starts pronunciation via
@@ -202,6 +202,7 @@
     ui = new LingoLearnPopup({
       onSpeak: handleSpeakButton,
       onClose: () => dismiss(true),
+      onOpenTranslate: handleOpenTranslate,
     });
     attachListeners();
     ui.setSpeechEnabled(settings.speechEnabled);
@@ -395,6 +396,28 @@
       tts.speak(lastResult.translation, target);
     } else if (currentText) {
       tts.speak(currentText, lastResult ? lastResult.detectedLanguage : null);
+    }
+  }
+
+  /**
+   * Sends the current selection to the background script, which opens it on
+   * translate.google.com in a new tab. This is the only online action in the
+   * extension and it only ever happens on an explicit user click; failures are
+   * swallowed and the popup stays open so nothing is lost.
+   */
+  function handleOpenTranslate() {
+    if (!settings || !currentText) return;
+    try {
+      const reply = llApi.runtime.sendMessage({
+        type: "ll:openGoogleTranslate",
+        text: currentText,
+        target: settings.targetLanguage,
+      });
+      // Firefox returns a promise that rejects when the background page is
+      // gone; Chrome returns one too. Either way this stays best-effort.
+      if (reply && typeof reply.catch === "function") reply.catch(() => {});
+    } catch (err) {
+      /* invalidated extension context - nothing to report to the user */
     }
   }
 

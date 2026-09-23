@@ -1,12 +1,13 @@
 "use strict";
 
 /*
- * LingoLearn Lens — popup UI component.
+ * LingoLearn BN — popup UI component.
  *
  * A self-contained view rendered inside a closed shadow root, so host pages
  * cannot read or restyle it. Knows nothing about translation or settings:
  * the controller calls showLoading / showResult / showError and reacts to
- * the onSpeak / onClose callbacks. Also usable from the dev preview page.
+ * the onSpeak / onClose / onOpenTranslate callbacks. Also usable from the dev
+ * preview page.
  */
 
 const LL_LANG_NAMES = {
@@ -34,6 +35,11 @@ const LL_ICONS = {
     '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12 19 6.4 17.6 5 12 10.6z"/></svg>',
   warning:
     '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>',
+  // Two opposed arrows (language swap). Drawn as chunky filled shapes: at the
+  // 13px button size the bars still land on ~2px, so it stays crisp instead of
+  // turning into a grey smudge like a finer line-art globe would.
+  translate:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.4 4.3H13V2L21.6 6.5 13 11V8.7H2.4z"/><path d="M21.6 15.3H11V13L2.4 17.5 11 22v-2.3h10.6z"/></svg>',
 };
 
 const LL_COMPANY = { name: "ANSNEW TECH.", url: "https://inside.ansnew.com/" };
@@ -53,6 +59,7 @@ const LL_POPUP_MARKUP = `
       </div>
       <div class="ll-view ll-view-result" hidden>
         <div class="ll-meaning" dir="auto" aria-live="polite"></div>
+        <div class="ll-ipa" hidden></div>
         <div class="ll-note" hidden></div>
         <div class="ll-roman" hidden></div>
         <div class="ll-dict" hidden></div>
@@ -63,15 +70,17 @@ const LL_POPUP_MARKUP = `
       </div>
     </div>
     <footer class="ll-foot">
+      <button class="ll-gt" type="button" title="Open in Google Translate">${LL_ICONS.translate}<span>Google Translate</span></button>
       <a href="${LL_COMPANY.url}" target="_blank" rel="noopener noreferrer">by ${LL_COMPANY.name}</a>
     </footer>
   </div>
 `;
 
 class LingoLearnPopup {
-  constructor({ onSpeak, onClose } = {}) {
+  constructor({ onSpeak, onClose, onOpenTranslate } = {}) {
     this.onSpeak = onSpeak || (() => {});
     this.onClose = onClose || (() => {});
+    this.onOpenTranslate = onOpenTranslate || (() => {});
     this.visible = false;
 
     this.host = document.createElement("div");
@@ -88,25 +97,29 @@ class LingoLearnPopup {
     this.langEl = root.querySelector(".ll-lang");
     this.speakBtn = root.querySelector(".ll-speak");
     this.closeBtn = root.querySelector(".ll-close");
+    this.gtBtn = root.querySelector(".ll-gt");
     this.views = {
       loading: root.querySelector(".ll-view-loading"),
       result: root.querySelector(".ll-view-result"),
       error: root.querySelector(".ll-view-error"),
     };
     this.meaningEl = root.querySelector(".ll-meaning");
+    this.ipaEl = root.querySelector(".ll-ipa");
     this.noteEl = root.querySelector(".ll-note");
     this.romanEl = root.querySelector(".ll-roman");
     this.dictEl = root.querySelector(".ll-dict");
     this.errorTextEl = root.querySelector(".ll-error-text");
 
     // Clicking anywhere on the card must not collapse the page selection
-    // that the popup belongs to.
+    // that the popup belongs to. The footer button is inside the card, so it
+    // is covered by this too.
     this.card.addEventListener("mousedown", (event) => event.preventDefault());
     this.closeBtn.addEventListener("click", () => {
       this.hide();
       this.onClose();
     });
     this.speakBtn.addEventListener("click", () => this.onSpeak());
+    this.gtBtn.addEventListener("click", () => this.onOpenTranslate());
 
     document.documentElement.appendChild(this.host);
   }
@@ -148,6 +161,11 @@ class LingoLearnPopup {
 
     this.meaningEl.textContent = data.translation || "";
 
+    // IPA pronunciation (offline cmudict lookups); hidden when absent.
+    const ipa = typeof data.ipa === "string" ? data.ipa.trim() : "";
+    this.ipaEl.hidden = !ipa;
+    if (ipa) this.ipaEl.textContent = `/${ipa}/`;
+
     this.noteEl.hidden = !note;
     this.noteEl.textContent = note;
 
@@ -186,7 +204,7 @@ class LingoLearnPopup {
   }
 
   showError(message) {
-    this.langEl.textContent = "LingoLearn Lens";
+    this.langEl.textContent = "LingoLearn BN";
     this.errorTextEl.textContent = message || "Something went wrong.";
     this._setView("error");
   }

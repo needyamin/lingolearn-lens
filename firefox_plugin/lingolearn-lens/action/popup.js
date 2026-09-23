@@ -1,6 +1,6 @@
 "use strict";
 
-/* LingoLearn Lens — toolbar quick-toggle popup. */
+/* LingoLearn BN — toolbar quick-toggle popup. */
 
 const translateToggle = document.getElementById("toggleTranslate");
 const speakToggle = document.getElementById("toggleSpeak");

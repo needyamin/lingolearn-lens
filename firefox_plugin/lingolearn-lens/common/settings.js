@@ -1,7 +1,7 @@
 "use strict";
 
 /*
- * LingoLearn Lens — shared settings layer.
+ * LingoLearn BN — shared settings layer.
  *
  * Loaded in every extension context (content scripts, background event page,
  * options page, toolbar popup). Defines the defaults, a normalizer that keeps
@@ -19,13 +19,13 @@ const LL_DEFAULT_SETTINGS = Object.freeze({
   popupTheme: "auto",       // "auto" | "light" | "dark"
   excludedSites: [],        // ["example.com", "*.wikipedia.org"]
   maxSelectionLength: 600,  // characters sent for translation
-  targetLanguage: "bn",     // code from LL_TARGET_LANGUAGES
+  targetLanguage: "bn",     // code from LL_OFFLINE_TARGETS (offline: Bangla only)
   voiceURI: "",             // speechSynthesis voiceURI; "" = auto-match the detected language
 });
 
 /**
- * Languages the meaning can be shown in (Google Translate codes -> English
- * names). Also used by the background script to validate requests.
+ * Legacy full language list; the English names are still used by the UI
+ * (e.g. popup headers). Request validation now uses LL_OFFLINE_TARGETS.
  */
 const LL_TARGET_LANGUAGES = {
   af: "Afrikaans", sq: "Albanian", am: "Amharic", ar: "Arabic", hy: "Armenian",
@@ -52,6 +52,13 @@ const LL_TARGET_LANGUAGES = {
   vi: "Vietnamese", cy: "Welsh", xh: "Xhosa", yi: "Yiddish", yo: "Yoruba",
   zu: "Zulu",
 };
+
+/**
+ * Languages the offline engine can actually produce (code -> English name).
+ * The bundled dictionaries cover Bangla only; settings and background
+ * requests fall back to "bn" for anything else.
+ */
+const LL_OFFLINE_TARGETS = Object.freeze({ bn: "Bangla" });
 
 /** Native-script names for common targets; falls back to the English name. */
 const LL_TARGET_NATIVE_NAMES = {
@@ -99,7 +106,7 @@ function LL_normalizeSettings(raw) {
   if (Number.isInteger(raw.maxSelectionLength)) {
     out.maxSelectionLength = Math.min(1500, Math.max(50, raw.maxSelectionLength));
   }
-  if (typeof raw.targetLanguage === "string" && LL_TARGET_LANGUAGES[raw.targetLanguage]) {
+  if (typeof raw.targetLanguage === "string" && LL_OFFLINE_TARGETS[raw.targetLanguage]) {
     out.targetLanguage = raw.targetLanguage;
   }
   if (typeof raw.voiceURI === "string") {

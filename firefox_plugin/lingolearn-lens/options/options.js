@@ -1,7 +1,7 @@
 "use strict";
 
 /*
- * LingoLearn Lens — options page controller.
+ * LingoLearn BN — options page controller.
  * Loads settings once, then saves automatically (debounced) on every change.
  */
 
@@ -54,15 +54,8 @@ async function populate() {
 
 function populateTargetLanguages(selected) {
   els.targetLanguage.textContent = "";
-  const entries = Object.entries(LL_TARGET_LANGUAGES).sort((a, b) =>
-    a[1].localeCompare(b[1])
-  );
-  // Bangla leads the list as the add-on's default focus.
-  const ordered = [
-    ...entries.filter(([code]) => code === "bn"),
-    ...entries.filter(([code]) => code !== "bn"),
-  ];
-  for (const [code, name] of ordered) {
+  // Offline build: only Bangla ships with dictionary data.
+  for (const [code, name] of Object.entries(LL_OFFLINE_TARGETS)) {
     const option = document.createElement("option");
     option.value = code;
     const native = LL_TARGET_NATIVE_NAMES[code];
@@ -168,7 +161,7 @@ function testSpeech() {
   try {
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(
-      "Hello! Select any text on a page, and LingoLearn Lens will translate and pronounce it for you."
+      "Hello! Select any text on a page, and LingoLearn BN will translate and pronounce it for you."
     );
     utterance.rate = parseFloat(els.speechRate.value) || 1;
     const chosen = window.speechSynthesis
